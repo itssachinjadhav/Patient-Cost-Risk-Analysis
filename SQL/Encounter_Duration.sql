@@ -34,4 +34,4 @@ GROUP BY
 ORDER BY 
     AverageDurationHours DESC;
 
--- [🔙 Back to SQL Analysis](../../README.md#sql-analysis)
+-- [🔙 Back to SQL Analysis](../README.md#sql-analysis)
