@@ -158,6 +158,18 @@ Patients with frequent high-cost visits significantly contribute to the total ex
 2.**Payer Coverage Gaps:**
 Uncovered costs are highest for certain ReasonCodes and procedure types, indicating areas for improved payer negotiations.
 
+## 🚀 How to Run the Project
+1. Clone this repository:
+   git clone https://github.com/itssachinjadhav/Patient-Cost-Risk-Analysis.git
+2. Run the SQL scripts in your SQL environment.
+3. Open the Power BI .pbix file to explore interactive dashboards.
+
+## 🎯 Conclusion
+This project provides actionable insights for healthcare organizations to identify cost trends, optimize resource allocation, and manage financial risks effectively.
+
+
+
+
 
 
 
