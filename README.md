@@ -92,6 +92,8 @@ The following SQL queries were used to analyze patient encounter costs, financia
   	* The query combines patient demographics with encounter details to compute the uncovered cost for each encounter.
   	* It then aggregates the data to calculate the average uncovered cost, total uncovered cost, and the number of encounters for each ReasonCode and EncounterOutcome.
 - [View the SQL Query](SQL/Financial_Risk_Encounter_Outcome.sql)
+- [🔙 Back to SQL Analysis](#sql-analysis)
+
 
 
 #### 1.2 Identifying Patients with Frequent High-Cost Encounters
