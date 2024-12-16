@@ -82,246 +82,81 @@ SET FIRST = REPLACE(REPLACE(FIRST, '0', ''), '"', '');
 
 
 ## 📈 Steps of Analysis
+### SQL Analysis
 
-### 1.1 Evaluating Financial Risk by Encounter Outcome
-* Objective: Identify ReasonCodes with the highest uncovered costs.
-* Key Query:
+The following SQL queries were used to analyze patient encounter costs, financial risks, and procedure trends:
 
-```sql
-WITH Encounter_Costs AS (
-    SELECT 
-        e.Encounter_Id,
-        e.REASONCODE,
-        e.DESCRIPTION AS EncounterDescription,
-        e.TOTAL_CLAIM_COST,
-        e.PAYER_COVERAGE,
-        (CAST(e.TOTAL_CLAIM_COST AS DECIMAL(18,2)) - CAST(e.PAYER_COVERAGE AS DECIMAL(18,2))) AS UncoveredCost,
-        e.ENCOUNTERCLASS AS EncounterOutcome,
-		e.REASONDESCRIPTION,
-        p.GENDER
-    FROM 
-        ENCOUNTERS e
-    JOIN 
-        PATIENTS p ON e.PATIENT = p.Id
-),
-Aggregated_Risk AS (
-    SELECT 
-        REASONCODE,
-        EncounterOutcome,
-		REASONDESCRIPTION,
-        AVG(UncoveredCost) AS AvgUncoveredCost,
-        SUM(UncoveredCost) AS TotalUncoveredCost,
-        COUNT(Encounter_Id) AS TotalEncounters
-    FROM 
-        Encounter_Costs
-    GROUP BY 
-        REASONCODE, EncounterOutcome,REASONDESCRIPTION
-)
-SELECT 
-    REASONCODE,
-    EncounterOutcome,
-    AvgUncoveredCost,
-    TotalUncoveredCost,
-    TotalEncounters,
-	REASONDESCRIPTION  
+#### 1.1 Evaluating Financial Risk by Encounter Outcome
+- **Objective**: This query identifies the ReasonCodes that lead to the highest financial risk by calculating the uncovered cost (total claim cost minus payer coverage) for each encounter outcome.
+- **Explanation**:
+  	* The query combines patient demographics with encounter details to compute the uncovered cost for each encounter.
+  	* It then aggregates the data to calculate the average uncovered cost, total uncovered cost, and the number of encounters for each ReasonCode and EncounterOutcome.
+- [View the SQL Query](SQL/Financial_Risk_Encounter_Outcome.sql)
 
-FROM 
-    Aggregated_Risk
-ORDER BY 
-    TotalUncoveredCost DESC;
-```
-### 1.2 Identifying Patients with Frequent High-Cost Encounters
-* Objective: Find patients with >3 encounters per year with costs exceeding $10,000.
-* Key Query:
 
-```sql
-WITH HighCostEncounters AS (
-    SELECT 
-        e.PATIENT,
-        p.FIRST,
-        p.LAST,
-        p.GENDER,
-        p.BIRTHDATE,
-        YEAR(CAST(e.START AS DATE)) AS EncounterYear,
-        COUNT(e.ENCOUNTER_Id) AS TotalEncounters,
-        SUM(CAST(e.TOTAL_CLAIM_COST AS DECIMAL(18,2))) AS TotalClaimCost
-    FROM 
-        ENCOUNTERS e
-    JOIN 
-        PATIENTS p ON e.PATIENT = p.Id
-    WHERE 
-        CAST(e.TOTAL_CLAIM_COST AS DECIMAL(18,2)) > 10000
-    GROUP BY 
-        e.PATIENT, p.FIRST, p.LAST, p.GENDER, p.BIRTHDATE, YEAR(CAST(e.START AS DATE))
-)
-SELECT 
-    PATIENT,
-    FIRST,
-    LAST,
-    GENDER,
-    BIRTHDATE,
-    EncounterYear,
-    TotalEncounters,
-    TotalClaimCost
-FROM 
-    HighCostEncounters
-WHERE 
-    TotalEncounters > 3
-ORDER BY 
-    TotalEncounters DESC, TotalClaimCost DESC;
-```
+#### 1.2 Identifying Patients with Frequent High-Cost Encounters
+- **Objective**: This query identifies patients who had **more than 3 encounters** in a year, where each encounter had a **total claim cost above $10,000.**
+- **Explanation:**
+	* A CTE (HighCostEncounters) is used to calculate the total number of encounters and the sum of claim costs for each patient grouped by year.
+ 	* The query filters for patients whose **total encounters exceed 3** and sorts them by the number of encounters and total claim costs in descending order.
+- [View the SQL Query](SQL/high_Cost_Encounters.sql)
 
-### 1.3 Identifying Risk Factors Based on Demographics
-* Objective: Analyze frequent diagnosis codes and associated demographics.
-* Key Query:
+#### 1.3 Identifying Risk Factors Based on Demographics
+- **Objective:** This query identifies the top 3 most frequent diagnosis codes (ReasonCodes) and analyzes their association with patient demographics such as gender, race, and ethnicity to understand which groups are most affected by high-cost encounters.
+- **Explanation:**
+	* The query first determines the **top 3 ReasonCodes** with the most encounters.
+	* It then calculates the **average uncovered cost, total uncovered cost** and **number of encounters** for each group segmented by gender, race, and ethnicity.
+- [View the SQL Query](SQL/RiskFactors_on_Demographics_Encounter.sql)
 
-```sql
 
-SELECT 
-    ec.REASONCODE,
-	ec.REASONDESCRIPTION,
-    p.GENDER,
-    p.RACE,
-    p.ETHNICITY,
-    AVG(ec.TOTAL_CLAIM_COST - ec.PAYER_COVERAGE) AS AvgUncoveredCost,
-    SUM(ec.TOTAL_CLAIM_COST - ec.PAYER_COVERAGE) AS TotalUncoveredCost,
-    COUNT(*) AS TotalEncounters
-FROM 
-    ENCOUNTERS ec
-JOIN 
-    PATIENTS p ON ec.PATIENT = p.Id
-WHERE 
-    ec.REASONCODE IN (
-        SELECT TOP 3 REASONCODE
-        FROM ENCOUNTERS
-        WHERE REASONCODE IS NOT NULL
-        GROUP BY REASONCODE
-        ORDER BY COUNT(*) DESC
-    )
-GROUP BY 
-    ec.REASONCODE, p.GENDER, p.RACE, p.ETHNICITY, ec.REASONDESCRIPTION
-ORDER BY 
-    TotalUncoveredCost DESC;
-```
-### 1.4 Assessing Payer Contributions
-* Objective: Identify payer coverage gaps across procedure types.
-* Key Query:
+#### 1.4 Analyzing Payer Contributions for Procedure Costs
+- **Objective**: This query analyzes **payer contributions** for the base cost of procedures and identifies any **gaps** between the **total claim cost** and the **payer coverage**.
+- **Explanation:**
+	* The query calculates the **total base cost**, **total claim cost** and **total payer coverage** for each procedure (ProcedureCode and ProcedureDescription) grouped by PAYER.
+	* It also computes the **uncovered cost** as the difference between total claim cost and total payer coverage.
+	* The results are ordered by the **highest uncovered costs** to highlight significant financial gaps.
+- [View the SQL Query](SQL/Payer_Contributions_for_Procedure.sql)
 
-```sql
-WITH Procedure_Costs AS (
-    SELECT 
-        p.CODE AS ProcedureCode,
-        p.DESCRIPTION AS ProcedureDescription,
-        e.PAYER,
-        SUM(CAST(p.BASE_COST AS DECIMAL(18,2))) AS TotalBaseCost,
-        SUM(CAST(e.TOTAL_CLAIM_COST AS DECIMAL(18,2))) AS TotalClaimCost,
-        SUM(CAST(e.PAYER_COVERAGE AS DECIMAL(18,2))) AS TotalPayerCoverage,
-        (SUM(CAST(e.TOTAL_CLAIM_COST AS DECIMAL(18,2))) - SUM(CAST(e.PAYER_COVERAGE AS DECIMAL(18,2)))) AS UncoveredCost
-    FROM 
-        Proceduree p
-    JOIN 
-        ENCOUNTERS e ON p.ENCOUNTER = e.ENCOUNTER_Id
-    GROUP BY 
-        p.CODE, p.DESCRIPTION, e.PAYER
-)
-SELECT	 
-    ProcedureCode,
-    ProcedureDescription,
-    PAYER,
-    TotalBaseCost,
-    TotalClaimCost,
-    TotalPayerCoverage,
-    UncoveredCost
-FROM 
-    Procedure_Costs
-ORDER BY 
-    UncoveredCost DESC;
-```
-### 1.5 Analyzing Encounter Duration
-* Objective: Identify encounters exceeding 24 hours per organization.
-* Key Query:
+#### 1.5 Analyzing Patient Encounter Duration
+ - **Objective**: This query calculates the **average encounter duration** for each EncounterClass per organization, identifying encounters where the duration exceeds **24 hours**.
+ - **Explanation**:
+	* The query calculates the duration of each encounter in hours by subtracting the START time from the STOP time.
+	* It then calculates the **average duration** for each EncounterClass within each organization and counts the number of encounters that exceed **24 hours**.
+ - [View the SQL Query](SQL/Encounter_Duration.sql)
 
-```sql
-WITH EncounterDurations AS (
-    SELECT 
-        e.ORGANIZATION,
-        o.NAME AS OrganizationName,
-        e.ENCOUNTERCLASS,
-        e.ENCOUNTER_Id,
-        e.START,
-        e.STOP,
-        DATEDIFF(HOUR, CAST(e.START AS DATETIME), CAST(e.STOP AS DATETIME)) AS DurationHours
-    FROM 
-        ENCOUNTERS e
-    JOIN 
-        ORGANIZATIONS o ON e.ORGANIZATION = o.ORGANIZATION_Id
-    WHERE 
-        e.START IS NOT NULL 
-        AND e.STOP IS NOT NULL 
-)
--- Calculating the average encounter duration per class and identify long encounters
-SELECT 
-    ORGANIZATION,
-    OrganizationName,
-    ENCOUNTERCLASS,
-    AVG(DurationHours) AS AverageDurationHours,
-    COUNT(CASE WHEN DurationHours > 24 THEN 1 END) AS EncountersExceeding24Hours
-FROM 
-    EncounterDurations
-GROUP BY 
-    ORGANIZATION, OrganizationName, ENCOUNTERCLASS
-ORDER BY 
-    AverageDurationHours DESC;
-```
-### 1.6 Identifying Patients with Multiple Procedures Across Encounters
-* Objective: Patients who had multiple procedures across different encounters.
-* Key Query:
-```sql
-WITH Patient_Procedure_Count AS (
-    SELECT 
-        p.PATIENT,
-        p.REASONCODE,
-        COUNT(DISTINCT p.ENCOUNTER) AS DistinctEncounters,
-        COUNT(p.CODE) AS TotalProcedures,
-        COUNT(DISTINCT p.CODE) AS DistinctProcedures
-    FROM 
-        Proceduree p
-    WHERE 
-        p.REASONCODE IS NOT NULL -- Only include rows where ReasonCode is available
-    GROUP BY 
-        p.PATIENT, p.REASONCODE
-),
-Filtered_Patients AS (
-    SELECT 
-        PATIENT,
-        REASONCODE,
-        DistinctEncounters,
-        TotalProcedures,
-        DistinctProcedures
-    FROM 
-        Patient_Procedure_Count
-    WHERE 
-        DistinctEncounters > 1 -- Ensure multiple encounters
-)
-SELECT 
-    fp.PATIENT,
-    fp.REASONCODE,
-    fp.DistinctEncounters,
-    fp.TotalProcedures,
-    fp.DistinctProcedures,
-    pt.FIRST,
-    pt.LAST,
-    pt.GENDER,
-    pt.BIRTHDATE
-FROM 
-    Filtered_Patients fp
-JOIN 
-    PATIENTS pt ON fp.PATIENT = pt.Id
-ORDER BY 
-    fp.DistinctEncounters DESC, fp.TotalProcedures DESC;
-```
 
-  
+#### 1.6 Identifying Patients with Multiple Procedures Across Encounters
+- **Objective**: This query identifies patients who had **multiple procedures across different encounters** with the same ReasonCode.
+- **Explanation**:
+	* The query first calculates the distinct encounters and distinct procedures for each patient and ReasonCode.
+	* It then filters the results to only include patients with more than one encounter (DistinctEncounters > 1), ensuring that the analysis focuses on repeated high-cost utilization patterns.
+	* Finally, the patient details such as FIRST, LAST, GENDER, and BIRTHDATE are retrieved and the results are ordered by encounter frequency and total procedures.
+- [View the SQL Query](SQL/Multiple_Procedures_Encounters.sql)
+
+
+### 2.Power BI Visualizations
+**1. Encounter Cost Distribution by Encounter Class**
+![Encounter Cost Distribution](PowerBI/visuals/cost_distribution.png)
+
+**2. High-Cost Patient Identification**
+![High-Cost Patient Identification](PowerBI/visuals/high_cost_patients.png)
+
+**3. Uncovered Costs by Payer and Reason Code**
+![Uncovered Payer Cost](PowerBI/visuals/Uncovered_payer_cost.png)
+
+**4. Procedure Cost Trends**
+![Procedure Cost Trends](PowerBI/visuals/Procedure_Cost_trends)
+
+**5. Geographical Analysis**
+![Geographical Analysis](PowerBI/visuals/Geographical_Analysis)
+
+
+## 🔑 Key Insights  
+1.**High-Cost Encounters:**
+Patients with frequent high-cost visits significantly contribute to the total expenses, requiring targeted care management.
+
+2.**Payer Coverage Gaps:**
+Uncovered costs are highest for certain ReasonCodes and procedure types, indicating areas for improved payer negotiations.
 
 
 
