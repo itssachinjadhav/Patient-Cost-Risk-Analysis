@@ -33,3 +33,5 @@ GROUP BY
     ORGANIZATION, OrganizationName, ENCOUNTERCLASS
 ORDER BY 
     AverageDurationHours DESC;
+
+-- [🔙 Back to SQL Analysis](../../README.md#sql-analysis)
