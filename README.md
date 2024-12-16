@@ -4,6 +4,27 @@
 
 This project focuses on identifying patients with frequent high-cost encounters, analyzing procedure costs, and evaluating financial risks due to payer coverage gaps. Leveraging SQL-based analysis and Power BI visualizations, the project aims to uncover insights to improve operational efficiency, patient care, and resource planning in healthcare organizations.
 
+## 📑 Table of Contents
+
+1. [Tools Used](#tools-&-technologies-used)
+2. [Dataset Description](#dataset-description)
+3. [Data Preparation](#data-preparation)
+4. [SQL Analysis](#sql-analysis)
+   - [Evaluating Financial Risk by Encounter Outcome](#evaluating-financial-risk-by-encounter-outcome)
+   - [Identifying Patients with Frequent High-Cost Encounters](#identifying-patients-with-frequent-high-cost-encounters)
+   - [Identifying Risk Factors Based on Demographics](#identifying-risk-factors-based-on-demographics)
+   - [Analyzing Payer Contributions for Procedure Costs](#analyzing-payer-contributions-for-procedure-costs)
+   - [Analyzing Patient Encounter Duration](#Analyzing-patient-encounter-duration)
+   - [Identifying Patients with Multiple Procedures Across Encounters](#Identifying-patients-with-multiple-procedures-across-encounters)
+5. [Power BI Visualizations](#power-bi-visualizations)
+   - [Encounter Cost Distribution](#encounter-cost-distribution)
+   - [High-Cost Patient Identification](#high-cost-patient-identification)
+   - [Uncovered Costs by Payer and Reason Code](#Uncovered-costs-by-payer-and-reason-code)
+   - [Procedure Cost Trends](#procedure-cost-trends)
+6. [Key Insights](#key-insights)
+7. [How to Run the Project](#how-to-run-the-project)
+8. [Conclusion](#conclusion)
+   
 ## 🔍 Problem Statement
 
 Healthcare organizations face challenges in managing financial risks and costs due to:
@@ -82,7 +103,7 @@ SET FIRST = REPLACE(REPLACE(FIRST, '0', ''), '"', '');
 
 
 ## 📈 Steps of Analysis
-### SQL Analysis
+### 1. SQL Analysis
 
 The following SQL queries were used to analyze patient encounter costs, financial risks, and procedure trends:
 
@@ -92,7 +113,7 @@ The following SQL queries were used to analyze patient encounter costs, financia
   	* The query combines patient demographics with encounter details to compute the uncovered cost for each encounter.
   	* It then aggregates the data to calculate the average uncovered cost, total uncovered cost, and the number of encounters for each ReasonCode and EncounterOutcome.
 - [View the SQL Query](SQL/Financial_Risk_Encounter_Outcome.sql)
-- [🔙 Back to SQL Analysis](#sql-analysis)
+
 
 
 
