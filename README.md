@@ -145,10 +145,10 @@ The following SQL queries were used to analyze patient encounter costs, financia
 ![Uncovered Payer Cost](PowerBI/visuals/Uncovered_payer_cost.png)
 
 **4. Procedure Cost Trends**
-![Procedure Cost Trends](PowerBI/visuals/Procedure_Cost_trends)
+![Procedure Cost Trends](PowerBI/visuals/Procedure_Cost_trends.png)
 
 **5. Geographical Analysis**
-![Geographical Analysis](PowerBI/visuals/Geographical_Analysis)
+![Geographical Analysis](PowerBI/visuals/Geographical_Analysis.pnb)
 
 
 ## 🔑 Key Insights  
