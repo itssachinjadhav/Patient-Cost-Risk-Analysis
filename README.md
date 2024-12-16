@@ -136,19 +136,19 @@ The following SQL queries were used to analyze patient encounter costs, financia
 
 ### 2.Power BI Visualizations
 **1. Encounter Cost Distribution by Encounter Class**
-[Encounter Cost Distribution](PowerBI/visuals/cost_distribution.png)
+![Encounter Cost Distribution](PowerBI/Visuals/cost_distribution.png)
 
 **2. High-Cost Patient Identification**
-![High-Cost Patient Identification](PowerBI/visuals/high_cost_patients.png)
+![High-Cost Patient Identification](PowerBI/Visuals/high_cost_patients.png)
 
 **3. Uncovered Costs by Payer and Reason Code**
-![Uncovered Payer Cost](PowerBI/visuals/Uncovered_payer_cost.png)
+![Uncovered Payer Cost](PowerBI/Visuals/Uncovered_payer_cost.png)
 
 **4. Procedure Cost Trends**
-![Procedure Cost Trends](PowerBI/visuals/Procedure_Cost_trends.png)
+![Procedure Cost Trends](PowerBI/Visuals/Procedure_Cost_trends.png)
 
 **5. Geographical Analysis**
-![Geographical Analysis](PowerBI/visuals/Geographical_Analysis.pnb)
+![Geographical Analysis](PowerBI/Visuals/Geographical_Analysis.pnb)
 
 
 ## 🔑 Key Insights  
