@@ -1,4 +1,4 @@
-# Key Insights from the Healthcare Cost and Risk Analysis
+# Key Insights from the Patient Cost and Risk Analysis
 
 ## 1. High-Cost Patient Encounters
 - **Insight**: A significant number of high-cost encounters are linked to specific **ReasonCodes** such as [72892002, 91302008 etc], contributing heavily to the uncovered costs.  
