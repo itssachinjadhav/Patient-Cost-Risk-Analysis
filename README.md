@@ -33,6 +33,54 @@ The analysis uses SQL to identify patterns across 5 key tables:
 * Payers: Payer contributions and coverage gaps.
 * Organizations: Geographical and organizational-level data.
 
+## 🛠️ Data Preparation (Cleaning and Loading)
+The data preparation phase involved creating tables, loading data from CSV files, and cleaning fields to ensure data consistency.
+### 1. Database and Table Creation
+* A new database named COST_AND_RISK_ENCOUNTER was created.
+* Tables created:
+
+  * **Encounters:** Stores patient encounter details including costs, codes, and descriptions.
+  * **Organizations:** Contains information about healthcare organizations, locations, and addresses.
+  * **Patients:** Includes patient demographics like gender, race, birthdate, and location.
+  * **Procedures:** Captures information about medical procedures performed during encounters.
+  * **Payers:** Contains details about payers and their coverage contributions.
+
+**Example Table Schema** (for Encounters):
+```sql
+CREATE TABLE Encounters (
+    ENCOUNTER_Id VARCHAR(MAX),
+    START Datetime,
+    STOP Datetime,
+    PATIENT VARCHAR(MAX),
+    ORGANIZATION VARCHAR(MAX),
+    PAYER VARCHAR(MAX),
+    ENCOUNTERCLASS VARCHAR(MAX),
+    CODE VARCHAR(MAX),
+    DESCRIPTION VARCHAR(MAX),
+    BASE_ENCOUNTER_COST FLOAT,
+    TOTAL_CLAIM_COST FLOAT,
+    PAYER_COVERAGE FLOAT,
+    REASONCODE FLOAT,
+    REASONDESCRIPTION VARCHAR(MAX)
+);
+```
+
+### 2. Data Loading
+* Data was loaded into the tables using BULK INSERT from CSV files.
+* Example:
+```sql
+BULK INSERT Encounters  
+FROM 'C:\\Users\\getla\\OneDrive\\Desktop\\Dataset\\encounters.csv'  
+WITH (Fieldterminator = ',', Rowterminator = '\\n', Firstrow = 2);
+```
+### 3. Data Cleaning
+Cleaned the FIRST field in the Patients table to remove unnecessary characters:
+```SQL
+UPDATE Patients  
+SET FIRST = REPLACE(REPLACE(FIRST, '0', ''), '"', '');
+```
+
+
 ## 📈 Steps of Analysis
 
 ### 1.1 Evaluating Financial Risk by Encounter Outcome
