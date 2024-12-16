@@ -4,31 +4,6 @@
 
 This project focuses on identifying patients with frequent high-cost encounters, analyzing procedure costs, and evaluating financial risks due to payer coverage gaps. Leveraging SQL-based analysis and Power BI visualizations, the project aims to uncover insights to improve operational efficiency, patient care, and resource planning in healthcare organizations.
 
-## 📑 Table of Contents
-
-
-1. [Problem Statement](#problem-statement)
-2. [Tools & Technologies Used](#tools--technologies-used)
-3. [Dataset Description](#dataset-description)
-4. [Data Preparation (Cleaning and Loading)](#data-preparation-cleaning-and-loading)
-5. [SQL Analysis](#sql-analysis)
-   - [Evaluating Financial Risk by Encounter Outcome](#evaluating-financial-risk-by-encounter-outcome)
-   - [Identifying Patients with Frequent High-Cost Encounters](#identifying-patients-with-frequent-high-cost-encounters)
-   - [Identifying Risk Factors Based on Demographics](#identifying-risk-factors-based-on-demographics)
-   - [Analyzing Payer Contributions for Procedure Costs](#analyzing-payer-contributions-for-procedure-costs)
-   - [Analyzing Patient Encounter Duration](#analyzing-patient-encounter-duration)
-   - [Identifying Patients with Multiple Procedures Across Encounters](#identifying-patients-with-multiple-procedures-across-encounters)
-6. [Power BI Visualizations](#power-bi-visualizations)
-   - [Encounter Cost Distribution by Encounter Class](#encounter-cost-distribution-by-encounter-class)
-   - [High-Cost Patient Identification](#high-cost-patient-identification)
-   - [Uncovered Costs by Payer and Reason Code](#uncovered-costs-by-payer-and-reason-code)
-   - [Procedure Cost Trends](#procedure-cost-trends)
-7. [Key Insights](#key-insights)
-8. [How to Run the Project](#how-to-run-the-project)
-9. [Conclusion](#conclusion)
-
-
-   
 ## 🔍 Problem Statement
 
 Healthcare organizations face challenges in managing financial risks and costs due to:
