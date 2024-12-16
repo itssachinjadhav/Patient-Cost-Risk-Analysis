@@ -34,4 +34,6 @@ GROUP BY
 ORDER BY 
     AverageDurationHours DESC;
 
--- [🔙 Back to SQL Analysis](../README.md#sql-analysis)
+
+-- Go back to SQL Analysis:
+-- https://github.com/itssachinjadhav/Patient-Cost-Risk-Analysis/blob/main/README.md#11-evaluating-financial-risk-by-encounter-outcome
