@@ -6,7 +6,7 @@ This project focuses on identifying patients with frequent high-cost encounters,
 
 ## 📑 Table of Contents
 
-1. [Tools Used](#tools-&-technologies-used)
+1. [Tools Used](#tools--technologies-used)
 2. [Dataset Description](#dataset-description)
 3. [Data Preparation](#data-preparation)
 4. [SQL Analysis](#sql-analysis)
@@ -14,16 +14,17 @@ This project focuses on identifying patients with frequent high-cost encounters,
    - [Identifying Patients with Frequent High-Cost Encounters](#identifying-patients-with-frequent-high-cost-encounters)
    - [Identifying Risk Factors Based on Demographics](#identifying-risk-factors-based-on-demographics)
    - [Analyzing Payer Contributions for Procedure Costs](#analyzing-payer-contributions-for-procedure-costs)
-   - [Analyzing Patient Encounter Duration](#Analyzing-patient-encounter-duration)
-   - [Identifying Patients with Multiple Procedures Across Encounters](#Identifying-patients-with-multiple-procedures-across-encounters)
+   - [Analyzing Patient Encounter Duration](#analyzing-patient-encounter-duration)
+   - [Identifying Patients with Multiple Procedures Across Encounters](#identifying-patients-with-multiple-procedures-across-encounters)
 5. [Power BI Visualizations](#power-bi-visualizations)
    - [Encounter Cost Distribution](#encounter-cost-distribution)
    - [High-Cost Patient Identification](#high-cost-patient-identification)
-   - [Uncovered Costs by Payer and Reason Code](#Uncovered-costs-by-payer-and-reason-code)
+   - [Uncovered Costs by Payer and Reason Code](#uncovered-costs-by-payer-and-reason-code)
    - [Procedure Cost Trends](#procedure-cost-trends)
 6. [Key Insights](#key-insights)
 7. [How to Run the Project](#how-to-run-the-project)
 8. [Conclusion](#conclusion)
+
    
 ## 🔍 Problem Statement
 
