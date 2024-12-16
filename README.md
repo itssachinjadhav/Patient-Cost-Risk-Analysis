@@ -136,7 +136,7 @@ The following SQL queries were used to analyze patient encounter costs, financia
 
 ### 2.Power BI Visualizations
 **1. Encounter Cost Distribution by Encounter Class**
-![Encounter Cost Distribution](PowerBI/visuals/cost_distribution.png)
+[Encounter Cost Distribution](PowerBI/visuals/cost_distribution.png)
 
 **2. High-Cost Patient Identification**
 ![High-Cost Patient Identification](PowerBI/visuals/high_cost_patients.png)
