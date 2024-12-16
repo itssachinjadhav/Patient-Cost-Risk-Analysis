@@ -151,10 +151,6 @@ The following SQL queries were used to analyze patient encounter costs, financia
 
 ![Procedure Cost Trends](PowerBI/Visuals/Procedure_Cost_trends.png)
 
-**5. Geographical Analysis**
-
-![Geographical Analysis](PowerBI/Visuals/Geographical_Analysis.pnb)
-
 
 ## 🔑 Key Insights  
 1.**High-Cost Encounters:**
