@@ -71,13 +71,16 @@ CREATE TABLE Encounters (
 ```sql
 BULK INSERT Encounters  
 FROM 'C:\\Users\\getla\\OneDrive\\Desktop\\Dataset\\encounters.csv'  
-WITH (Fieldterminator = ',', Rowterminator = '\\n', Firstrow = 2);
+WITH (Fieldterminator = ',', Rowterminator = '\n', Firstrow = 2);
 ```
 ### 3. Data Cleaning
 Cleaned the FIRST field in the Patients table to remove unnecessary characters:
 ```SQL
-UPDATE Patients  
-SET FIRST = REPLACE(REPLACE(FIRST, '0', ''), '"', '');
+UPDATE Patients
+SET FIRST = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+           REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(First, '0', ''), '1', ''), '2', ''), '3', ''), '4', ''), '5', ''), '6', ''), '7', ''), '8', ''), '9', '')
+WHERE First IS NOT NULL AND FIRST LIKE '%[0-9]%';
+
 ```
 
 
