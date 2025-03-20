@@ -101,7 +101,7 @@ The following SQL queries were used to analyze patient encounter costs, financia
 - **Explanation:**
 	* A CTE (HighCostEncounters) is used to calculate the total number of encounters and the sum of claim costs for each patient grouped by year.
  	* The query filters for patients whose **total encounters exceed 3** and sorts them by the number of encounters and total claim costs in descending order.
-- [View the SQL Query](SQL/high_Cost_Encounters.sql)
+- [View the SQL Query](SQL/High_Cost_Encounters.sql)
 
 #### 1.3 Identifying Risk Factors Based on Demographics
 - **Objective:** This query identifies the top 3 most frequent diagnosis codes (ReasonCodes) and analyzes their association with patient demographics such as gender, race, and ethnicity to understand which groups are most affected by high-cost encounters.
